@@ -75,7 +75,8 @@ namespace PiDarts.Core
         /// <param name="_gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime _gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 Exit();
             }
 
@@ -98,7 +99,7 @@ namespace PiDarts.Core
             spriteBatch.Begin();
 
             dartGameManager.Draw(spriteBatch);
-        
+
             spriteBatch.End();
 
             base.Draw(_gameTime);
@@ -106,7 +107,7 @@ namespace PiDarts.Core
 
         public void SetUpNewGame(GameSelection gameSelection, int numPlayers)
         {
-            dartGameManager.SetUpNewGame(gameSelection,numPlayers);
+            dartGameManager.SetUpNewGame(gameSelection, numPlayers);
         }
 
     }

@@ -54,7 +54,8 @@ namespace PiDarts.Windows.Menu
         private ObservableCollection<string> detectAvailablePorts()
         {
             portList = new ObservableCollection<string>();
-            foreach (string port in SerialPort.GetPortNames()) {
+            foreach (string port in SerialPort.GetPortNames())
+            {
                 portList.Add(port);
             }
             return portList;
@@ -84,12 +85,13 @@ namespace PiDarts.Windows.Menu
                         MessageBox.Show("Invalid port specified!");
                         return;
                     }
-                    catch (System.IO.IOException _exception) {
+                    catch (System.IO.IOException _exception)
+                    {
                         comboComPort.IsEnabled = true;
-                        MessageBox.Show(String.Format("Could not open port: {0}",port));
+                        MessageBox.Show(String.Format("Could not open port: {0}", port));
                         return;
                     }
-                    
+
                     gameThread = new Thread(() => initializeAndRun(port, numPlayers, gameSelection));
                     gameThread.Start();
                 }
@@ -106,10 +108,11 @@ namespace PiDarts.Windows.Menu
         /// <summary>
         /// Game must be initialized and ran on the same thread.
         /// </summary>
-        private void initializeAndRun(string _port, int _numPlayers,GameSelection _gameSelection) {
- 
+        private void initializeAndRun(string _port, int _numPlayers, GameSelection _gameSelection)
+        {
+
             piDartsGame = new PiDartsGame(dbReader);
-            piDartsGame.SetUpNewGame(_gameSelection,_numPlayers);
+            piDartsGame.SetUpNewGame(_gameSelection, _numPlayers);
             isRunning = true;
             piDartsGame.Run();
         }

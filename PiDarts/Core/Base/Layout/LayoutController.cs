@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PiDarts.Core.Layout
 {
-    public static class LayoutController 
+    public static class LayoutController
     {
 
         private static Region baseRegion;
@@ -24,11 +24,12 @@ namespace PiDarts.Core.Layout
         "score1p","score2p","score3p","score4p"};
 
 
-        public static void loadContent(ContentManager c) { 
+        public static void loadContent(ContentManager c)
+        {
             spriteFontsByNumPlayers = new SpriteFont[spriteFontAssets.Length];
-            for (int i = 0; i < spriteFontAssets.Length;i++ )
+            for (int i = 0; i < spriteFontAssets.Length; i++)
             {
-                spriteFontsByNumPlayers[i] = c.Load<SpriteFont>(String.Format("Content/Assets/Fonts/{0}",spriteFontAssets[i]));
+                spriteFontsByNumPlayers[i] = c.Load<SpriteFont>(String.Format("Content/Assets/Fonts/{0}", spriteFontAssets[i]));
             }
             lastHitFont = c.Load<SpriteFont>("Content/Assets/Fonts/lastHit");
         }
@@ -40,7 +41,8 @@ namespace PiDarts.Core.Layout
             screenPadding = _screenPadding;
         }
 
-        private static Region calculateBaseRegion(int _numRegions) {
+        private static Region calculateBaseRegion(int _numRegions)
+        {
 
             //TODO:Figure out a clean way to calculate the size of a region
             // if we want to calculate two rows (for a > 4 player game)
@@ -52,18 +54,20 @@ namespace PiDarts.Core.Layout
             return newBase;
         }
 
-        private static Vector2[] calculateRegionPositions(int _numRegions) {
+        private static Vector2[] calculateRegionPositions(int _numRegions)
+        {
             Vector2[] newRegions = new Vector2[_numRegions];
 
             for (int i = 0; i < newRegions.Length; i++)
             {
-                newRegions[i] = new Vector2(i * baseRegion.width,0);
+                newRegions[i] = new Vector2(i * baseRegion.width, 0);
             }
 
             return newRegions;
-        } 
+        }
 
-        public static void DrawScores(SpriteBatch _spriteBatch,IScoreEntity[] _scores){
+        public static void DrawScores(SpriteBatch _spriteBatch, IScoreEntity[] _scores)
+        {
 
             baseRegion = calculateBaseRegion(_scores.Length);
             regionPositions = calculateRegionPositions(_scores.Length);
@@ -74,14 +78,16 @@ namespace PiDarts.Core.Layout
             }
         }
 
-        public static void DrawLastHit(SpriteBatch _spriteBatch, Hit _lastHit) {
+        public static void DrawLastHit(SpriteBatch _spriteBatch, Hit _lastHit)
+        {
             if (_lastHit.modifier < 0)
             {
                 return;
             }
             string modifier_string = "";
 
-            switch (_lastHit.modifier) { 
+            switch (_lastHit.modifier)
+            {
                 case 1:
                     break;
                 case 2:
@@ -93,7 +99,7 @@ namespace PiDarts.Core.Layout
             }
 
             string score = String.Format("{0} {1}", modifier_string, _lastHit.value);
-            _spriteBatch.DrawString(lastHitFont, score, new Vector2(screenWidth/2, screenHeight/2) - (lastHitFont.MeasureString(score)/2), Color.Black);
+            _spriteBatch.DrawString(lastHitFont, score, new Vector2(screenWidth / 2, screenHeight / 2) - (lastHitFont.MeasureString(score) / 2), Color.Black);
         }
     }
 }

@@ -7,8 +7,8 @@ using PiDarts.Core.DartboardReaders;
 
 namespace PiDarts.Core
 {
-	public class DartGameManager
-	{
+    public class DartGameManager
+    {
 
         //Settings for the current game we are playing
         public DartGame dartGame;
@@ -31,7 +31,8 @@ namespace PiDarts.Core
         /// This method initializes all initial settings for a game.
         /// It can also be used to reset a game.
         /// </summary>
-        public void SetUpNewGame(GameSelection _gameSelection, int _numPlayers) {
+        public void SetUpNewGame(GameSelection _gameSelection, int _numPlayers)
+        {
 
             dartGame = new DartGame(_gameSelection, dbReader);
             players = new Player[_numPlayers];
@@ -39,13 +40,14 @@ namespace PiDarts.Core
             {
                 players[i] = new Player { position = i, currentThrow = 0, name = String.Format("Player {0}", i) };
             }
-                dartGame.SetUpNewGame(players);
+            dartGame.SetUpNewGame(players);
         }
         /// <summary>
         /// This should be called in a loop to continuously update the state of the game.
         /// Nothing in this method should block.
         /// </summary>
-        public void UpdateState() {
+        public void UpdateState()
+        {
             dartGame.UpdateState();
         }
         /// <summary>

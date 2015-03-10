@@ -7,26 +7,26 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PiDarts.Core
 {
-	public class DartGame
-	{
-        
+    public class DartGame
+    {
+
         //Gets input from the dartboard
         private IDartboardReader dbReader;
 
         //Game Constants
-		const int maxThrowsPerPlayer = 3;
-		const int maxPlayers = 4; //TODO: Make this game specific?
+        const int maxThrowsPerPlayer = 3;
+        const int maxPlayers = 4; //TODO: Make this game specific?
 
-		//Tracks current player and throw
+        //Tracks current player and throw
         private Player[] players;
-		private Player currentPlayer;
+        private Player currentPlayer;
         private Hit lastHit;
 
         //Store our game configuration
         private Enums.GameSelection gameSelection;
         public readonly IGameType gameType;
 
-        public static GameState state { get; private set; } 
+        public static GameState state { get; private set; }
 
         public DartGame(Enums.GameSelection _gameSelection, IDartboardReader _dbReader)
         {
@@ -67,7 +67,8 @@ namespace PiDarts.Core
                 return;
             }
 
-            if (state == GameState.TURN_BEGIN) { 
+            if (state == GameState.TURN_BEGIN)
+            {
                 //Do something here, create an animation to run or something.
             }
 
@@ -98,7 +99,8 @@ namespace PiDarts.Core
         /// This should be called in a loop to continuously to draw the 
         /// game entities to the screen. Nothing in this method should block.
         /// </summary>
-        public void Draw(SpriteBatch _spriteBatch) { 
+        public void Draw(SpriteBatch _spriteBatch)
+        {
             gameType.Draw(_spriteBatch);
         }
     }

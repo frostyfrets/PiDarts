@@ -16,7 +16,7 @@ namespace PiDarts.Windows
     class USBDartBoardReader : IDartboardReader
     {
         //Deadhit is returned by default when we haven't read a hit
-        private static Hit deadHit = new Hit { modifier = -1, value = -1};
+        private static Hit deadHit = new Hit { modifier = -1, value = -1 };
         private static Hit nextHit = deadHit;
 
         //lockObj synchronizes access to the 'nextHit' variable
@@ -37,7 +37,7 @@ namespace PiDarts.Windows
         public USBDartBoardReader(string _port)
         {
             ConfigureUSBPort(_port);
-            
+
             //Read in a previously calibrated text file.
             codes = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() + @"\codes.txt");
 
@@ -50,22 +50,25 @@ namespace PiDarts.Windows
         /// </summary>
         public Hit ReadDartboardHit()
         {
-            lock(lockObj){
-                if(nextHit.modifier > 0){
+            lock (lockObj)
+            {
+                if (nextHit.modifier > 0)
+                {
                     var tempHit = new Hit { modifier = nextHit.modifier, value = nextHit.value };
                     nextHit.modifier = -1;
-                    nextHit.value = -1;  
+                    nextHit.value = -1;
                     return tempHit;
                 }
             }
-                return deadHit;
+            return deadHit;
         }
 
         /// <summary>
         /// Registers an async handler to update the nextHit variable when byte is read from USB.
         /// When a new value is received from port, next hit values will be > 0.
         /// </summary>
-        private void ConfigureUSBPort(string _port) {
+        private void ConfigureUSBPort(string _port)
+        {
             //TODO: Make these settings variable.
 
             port = new SerialPort(_port, 9600, Parity.None, 8, StopBits.One);
@@ -85,38 +88,45 @@ namespace PiDarts.Windows
             int val = sp.ReadByte();
             codes[val] = String.Format("{0}|{1}", mod, index + 1);
             mod++;
-            if (mod > 3) {
+            if (mod > 3)
+            {
                 mod = 1;
                 index++;
             }
             SystemSounds.Beep.Play();
-            if (index == 20 && mod == 3) {
-                System.IO.File.WriteAllLines(Directory.GetCurrentDirectory() + @"\codes.txt",codes);
+            if (index == 20 && mod == 3)
+            {
+                System.IO.File.WriteAllLines(Directory.GetCurrentDirectory() + @"\codes.txt", codes);
             }
         }
 
         /// <summary>
         /// Invoked when new data arrives over USB port.
         /// </summary>
-       private static void DataReceivedHandler(object sender,SerialDataReceivedEventArgs e){
-           lock (lockObj) {
-               if (nextHit.modifier > 0) {
-                   //Sleep to give other threads a chance to run.
-                   Thread.Sleep(25);
-                   return;
-               }
-           }  
-       
+        private static void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
+        {
+            lock (lockObj)
+            {
+                if (nextHit.modifier > 0)
+                {
+                    //Sleep to give other threads a chance to run.
+                    Thread.Sleep(25);
+                    return;
+                }
+            }
+
             //Read value and get high/low bits
             SerialPort sp = (SerialPort)sender;
             int val = sp.ReadByte();
-            int row = val & 15;     
+            int row = val & 15;
             int col = (val >> 3);
 
             //Get the modifier and value for this code from our calibrated array
-            string[] modAndVal = codes[val].Split('|'); 
-            lock (lockObj) {
-                if (nextHit.modifier < 0) {
+            string[] modAndVal = codes[val].Split('|');
+            lock (lockObj)
+            {
+                if (nextHit.modifier < 0)
+                {
                     nextHit.modifier = Convert.ToInt32(modAndVal[0]);
                     nextHit.value = Convert.ToInt32(modAndVal[1]);
                     return;
