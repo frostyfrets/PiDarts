@@ -6,6 +6,10 @@ using System.Text;
 
 namespace PiDarts.Core.Layout
 {
+
+    /// <summary>
+    /// Represents an area on the screen that is reserved for drawing user scores.
+    /// </summary>
     public class Region
     {
         public Vector2 location;

@@ -10,20 +10,31 @@ using System.Threading.Tasks;
 
 namespace PiDarts.Core.Layout
 {
+    /// <summary>
+    /// Controlls how entities are position on the screen when drawn.
+    /// </summary>
     public static class LayoutController
     {
 
+        //baseRegion represents the size of a score region on the screen.
+        //it will be smaller based on the number of players 
         private static Region baseRegion;
         public static SpriteFont lastHitFont;
         private static Vector2[] regionPositions;
         public static SpriteFont[] spriteFontsByNumPlayers;
+
+        //Screen dimensions in pixels
         private static float screenHeight;
         private static float screenWidth;
         private static float screenPadding;
+
+        //Assets for games from 1-4 players
         private static string[] spriteFontAssets = {
         "score1p","score2p","score3p","score4p"};
 
-
+        /// <summary>
+        /// Loads all resource files from disk.
+        /// </summary>
         public static void loadContent(ContentManager c)
         {
             spriteFontsByNumPlayers = new SpriteFont[spriteFontAssets.Length];
@@ -34,6 +45,9 @@ namespace PiDarts.Core.Layout
             lastHitFont = c.Load<SpriteFont>("Content/Assets/Fonts/lastHit");
         }
 
+        /// <summary>
+        /// Should be called if screen size ever changes
+        /// </summary>
         public static void configureLayout(float _screenWidth, float _screenHeight, float _screenPadding)
         {
             screenWidth = _screenWidth;
@@ -41,6 +55,10 @@ namespace PiDarts.Core.Layout
             screenPadding = _screenPadding;
         }
 
+
+        /// <summary>
+        /// Called on every frame to calculate size of new player score region.
+        /// </summary>
         private static Region calculateBaseRegion(int _numRegions)
         {
 
@@ -54,6 +72,9 @@ namespace PiDarts.Core.Layout
             return newBase;
         }
 
+        /// <summary>
+        /// Should be called if screen size ever changes
+        /// </summary>
         private static Vector2[] calculateRegionPositions(int _numRegions)
         {
             Vector2[] newRegions = new Vector2[_numRegions];
@@ -66,6 +87,9 @@ namespace PiDarts.Core.Layout
             return newRegions;
         }
 
+        /// <summary>
+        /// Calculates positions of regions and updates them on every frame.
+        /// </summary>
         public static void DrawScores(SpriteBatch _spriteBatch, IScoreEntity[] _scores)
         {
 
@@ -78,6 +102,10 @@ namespace PiDarts.Core.Layout
             }
         }
 
+        /// <summary>
+        /// Draws the location and human readable text for the last dart hit.
+        /// i.e modifier = 2, value = 45, text drawn is "Double 15".
+        /// </summary>
         public static void DrawLastHit(SpriteBatch _spriteBatch, Hit _lastHit)
         {
             if (_lastHit.modifier < 0)

@@ -13,6 +13,6 @@ namespace PiDarts.Core.Interfaces
     /// </summary>
     public interface IScoreEntity
     {
-        void Draw(SpriteBatch _spriteBatch ,Vector2 _pos, SpriteFont _font);
+        void Draw(SpriteBatch _spriteBatch, Vector2 _pos, SpriteFont _font);
     }
 }
